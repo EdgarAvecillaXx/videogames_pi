@@ -1,16 +1,22 @@
 import { Request, Response } from 'express';
-import { Genre } from '../db';
+import { ModelStatic, Model } from 'sequelize';
 import services from '../services';
 
 export default class GenresController {
-  static async getGenres(req: Request, res: Response) {
-    const genreService = new services.GenreService(Genre);
-    const genres = await genreService.getGenres();
-    res.status(200).json(genres);
-    //1 primero validamos si genres de db esta vacio //$ Validador
-    //2 si esta vacio llamamos al servicio de rawg, //$ Servicio rawg
-    //2.1 si llamamos al servicio de rawg, llenamos el servicio de bd //$ servicio bd
-    //3 si tiene info llamamos al servicio de la bd //$ servicio bd
+  constructor(private readonly Genre: ModelStatic<Model>) {
+    this.Genre = Genre;
+  }
+  async getGenres(req: Request, res: Response) {
+    //$ BD Genre service
+    const genreService = new services.GenreService(this.Genre);
+    let genres = await genreService.getRecords();
+    if (!genres.length) {
+      //$ RAWG Genre Service
+      const rawgGenreService = new services.RawgService();
+      genres = await rawgGenreService.getRawgGenres();
+      await genreService.addBulk(genres);
+    }
+    res.status(200).send(genres);
   }
 }
 
