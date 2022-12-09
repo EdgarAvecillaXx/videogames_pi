@@ -1,11 +1,16 @@
-import { CreationOptional, InferAttributes, InferCreationAttributes, Model, ModelStatic } from 'sequelize';
+import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
 export interface Error {
+  error: unknown;
   status: number;
   message: string;
+  service: string;
+  type: string;
 }
 
-export interface Videogame extends Model<InferAttributes<Videogame>, InferCreationAttributes<Videogame>> {
+//? Models Types
+export interface VideogameModel
+  extends Model<InferAttributes<VideogameModel>, InferCreationAttributes<VideogameModel>> {
   id: string;
   name: string;
   description: string;
@@ -14,7 +19,30 @@ export interface Videogame extends Model<InferAttributes<Videogame>, InferCreati
   platforms: Array<string>;
 }
 
-export interface Genre extends Model<InferAttributes<Genre>, InferCreationAttributes<Genre>> {
-  id: string;
+export interface GenreModel extends Model<InferAttributes<GenreModel>, InferCreationAttributes<GenreModel>> {
+  id: number;
   name: CreationOptional<string>;
+  slug: CreationOptional<string>;
+  image_background: CreationOptional<string>;
+}
+
+//? Rawg Types
+export interface RawgGenre {
+  id: number;
+  name: string;
+  slug: string;
+  image_background: string;
+  games: {}[];
+  games_count: number;
+}
+export interface GetRwagGenresResponse {
+  results: RawgGenre[];
+}
+
+//?Types
+export interface GenreI {
+  id: number;
+  name: string;
+  slug: string;
+  image_background: string;
 }
