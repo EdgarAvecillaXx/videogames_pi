@@ -1,10 +1,10 @@
 import DataTypes, { Sequelize } from 'sequelize';
-import { Videogame } from '../types';
+import { VideogameModel } from '../types';
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 export default (sequelize: Sequelize): void => {
   // defino el modelo
-  sequelize.define<Videogame>('videogame', {
+  sequelize.define<VideogameModel>('videogame', {
     id: {
       type: DataTypes.STRING,
       allowNull: false,
