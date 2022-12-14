@@ -10,6 +10,6 @@ const router = Router();
 // Ejemplo: router.use('/auth', authRouter);
 
 router.use('/genres', genresRoutes);
-router.use('/genres', videogamesRoutes);
+router.use('/videogames', videogamesRoutes);
 
 export default router;
