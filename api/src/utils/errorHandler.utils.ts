@@ -2,17 +2,17 @@ import { Error } from '../types';
 
 export default function ErrorHandler(
   error: any,
-  service?: string,
-  type?: string,
-  message?: string,
-  status?: number
+  status: number = 500,
+  service: string = 'unknown',
+  type: string = error?.name || 'default error',
+  message: string = error?.message || 'default error message'
 ): Error {
   const err: Error = {
-    error,
-    service: service || 'unknown',
-    type: type || error?.name || 'default error',
-    message: message || 'unknown',
-    status: status || 500,
+    error: error.toString(),
+    service,
+    type,
+    message,
+    status,
   };
   return err;
 }

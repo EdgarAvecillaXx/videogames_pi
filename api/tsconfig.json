@@ -15,7 +15,7 @@
     "strictNullChecks": true /* Enable strict null checks. */,
     "strictFunctionTypes": true /* Enable strict checking of function types. */,
     //"strictBindCallApply": true,           /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
-    "strictPropertyInitialization": true /* Enable strict checking of property initialization in classes. */,
+    "strictPropertyInitialization": false /* Enable strict checking of property initialization in classes. */,
     "alwaysStrict": true
   },
   "display": "Recommended",

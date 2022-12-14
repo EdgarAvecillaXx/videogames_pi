@@ -1,3 +1,4 @@
+//* Dependencies
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
@@ -20,5 +21,5 @@ server.use(middleware.headersConfig);
 //$routes
 server.use('/', routes);
 
-// Error catching endware.
+//? Error catching endware.
 server.use(middleware.ErrorHandling);
