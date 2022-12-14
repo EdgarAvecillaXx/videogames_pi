@@ -1,6 +1,7 @@
-//? DEPENDENDCIES
+//* Types
+import { RawgGenreResponse, RawgVideogameResponse, GenreI, VideogameI, VideogameDetailI } from '../types';
+//* DEPENDENDCIES
 import axios from 'axios';
-import { GetRwagGenresResponse, GenreI } from '../types';
 import utils from '../utils';
 
 //$ rawg Client
@@ -16,9 +17,10 @@ export default class RawgService {
     try {
       const {
         data: { results },
-      } = await rawgClient.get<GetRwagGenresResponse>(`/genres?key=${RAWG_API_KEY}`);
+      } = await rawgClient.get<RawgGenreResponse>(`/genres?key=${RAWG_API_KEY}`);
 
-      const data: GenreI[] = results.map(({ id, name, slug, image_background }) => ({
+      //$ transforms the genre Response to GenreI
+      const data: GenreI[] = results.map<GenreI>(({ id, name, slug, image_background }) => ({
         id,
         name,
         slug,
@@ -27,7 +29,57 @@ export default class RawgService {
 
       return data;
     } catch (e: any) {
-      throw utils.ErrorHandler(e, 'RAWG', 'GET /genres', e?.message, 503);
+      throw utils.ErrorHandler(e, 503, 'RAWG', 'GET /genres', e?.response?.data?.error);
+    }
+  }
+
+  async getRawgVideogames(): Promise<VideogameI[]> {
+    try {
+      const res = [];
+      //$ Here it is used for loop to iterate to obtain 100 records from Rawg
+      for (let i = 1; i < 6; i++) {
+        const {
+          data: { results },
+        } = await rawgClient.get<RawgVideogameResponse>(`/games?key=${RAWG_API_KEY}&page=${i}`);
+        console.log(results.length);
+        //$ transform the videgame Repsonse to VideoGameI
+        const data = results.map<VideogameI>(({ id, name, image_background, genres }) => ({
+          id,
+          name,
+          image_background,
+          genres,
+        }));
+        res.push(...data);
+      }
+      return res;
+    } catch (e: any) {
+      console.log(e);
+      throw utils.ErrorHandler(e, 503, 'RAWG', 'GET /videogames', e?.response?.data?.error);
+    }
+  }
+
+  async getRawgVideogameById(id: string): Promise<VideogameDetailI> {
+    try {
+      let game: VideogameDetailI;
+      const { data } = await rawgClient.get(`/games/${id}?key=${RAWG_API_KEY}`);
+      game = {
+        id: data.id,
+        name: data.name,
+        description: data.description,
+        release_date: data.released,
+        platforms: data.platforms.map(({ platform }: any) => platform.name),
+        rating: data.rating,
+        genres: data.genres.map((genre: GenreI) => ({
+          id: genre.id,
+          name: genre.name,
+          slug: genre.slug,
+          image_background: genre.image_background,
+        })),
+        image_background: data.image_background,
+      };
+      return game;
+    } catch (e: any) {
+      throw utils.ErrorHandler(e, 503, 'RAWG', `GET /videogames/${id}`, e?.response?.data?.error);
     }
   }
 }
