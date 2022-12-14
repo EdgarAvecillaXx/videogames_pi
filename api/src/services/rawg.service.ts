@@ -2,7 +2,7 @@
 import { RawgGenreResponse, RawgVideogameResponse, GenreI, VideogameI, VideogameDetailI } from '../types';
 //* DEPENDENDCIES
 import axios from 'axios';
-import utils from '../utils';
+import utils from 'utils';
 
 //$ rawg Client
 const { RAWG_API_KEY } = process.env;

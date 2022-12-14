@@ -1,8 +1,8 @@
 //? Dependencies
 import { ModelStatic } from 'sequelize';
-import { Genre } from '../db';
-import { VideogameI, VideogameModel, VideogameDetailI } from '../types';
-import utils from '../utils';
+import { Genre } from 'db';
+import { VideogameI, VideogameModel, VideogameDetailI } from 'types';
+import utils from 'utils';
 
 export default class VideogameService {
   constructor(private readonly videogame: ModelStatic<VideogameModel>) {
@@ -23,6 +23,7 @@ export default class VideogameService {
     return videogames as unknown as VideogameI[];
   }
 
+  //$ Get Videogame By Id
   async getVideogame(id: string): Promise<VideogameDetailI> {
     const videogame: VideogameModel | null = await this.videogame
       .findOne<VideogameModel>({
@@ -33,5 +34,12 @@ export default class VideogameService {
       });
 
     return { ...(videogame as unknown as VideogameDetailI) };
+  }
+
+  async addVideogame(videogame: any): Promise<{ msg: string }> {
+    await this.videogame.create(videogame).catch<never>(error => {
+      throw utils.ErrorHandler(error, 503, 'DBvideogame', 'addVideogame');
+    });
+    return { msg: 'The game has been created succesfully' };
   }
 }

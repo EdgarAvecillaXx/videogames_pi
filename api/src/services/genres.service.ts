@@ -1,9 +1,9 @@
 //* Types
 import { ModelStatic } from 'sequelize';
-import { GenreI, GenreModel } from '../types';
+import { GenreI, GenreModel } from 'types';
 
 //* Dependencies
-import utils from '../utils';
+import utils from 'utils';
 
 export default class GenreService {
   constructor(private readonly genre: ModelStatic<GenreModel>) {

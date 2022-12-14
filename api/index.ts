@@ -17,8 +17,8 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-import { server } from './src/app';
-import { conn } from './src/db';
+import { server } from 'app';
+import { conn } from 'db';
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {

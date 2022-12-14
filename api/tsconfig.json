@@ -11,14 +11,31 @@
     "sourceMap": true,
     "declaration": true,
     "noImplicitAny": true,
-    //"noImplicitThis": true,
-    "strictNullChecks": true /* Enable strict null checks. */,
-    "strictFunctionTypes": true /* Enable strict checking of function types. */,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
     //"strictBindCallApply": true,           /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
-    "strictPropertyInitialization": false /* Enable strict checking of property initialization in classes. */,
-    "alwaysStrict": true
+    "strictPropertyInitialization": false,
+    "alwaysStrict": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": "./",
+    "paths": {
+      "config": ["src/config/index.ts"],
+      "controllers": ["src/controllers/index.ts"],
+      "models/*": ["src/models/*"],
+      "services": ["src/services/index.ts"],
+      "utils": ["src/utils/index.ts"],
+      "middlewares": ["src/middlewares/index.ts"],
+      "types": ["src/types/index.ts"],
+      "db": ["src/db/index.ts"],
+      "app": ["src/app.ts"],
+      "routes": ["src/routes/index.ts"],
+      "services/*": ["src/services/*"]
+    }
   },
   "display": "Recommended",
-  "include": ["src/**/*", "index.ts", "src/app.ts"],
+  "include": ["src/**/*.ts", "index.ts", "src/app.ts"],
   "exclude": ["node_modules", "tests"]
 }

@@ -1,4 +1,4 @@
-import { Error } from '../types';
+import { Error } from 'types';
 
 export default function ErrorHandler(
   error: any,
@@ -14,5 +14,6 @@ export default function ErrorHandler(
     message,
     status,
   };
+  console.log(error);
   return err;
 }

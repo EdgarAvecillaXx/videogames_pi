@@ -1,12 +1,12 @@
 //* Types
 import { NextFunction, Request, Response } from 'express';
-import { DBServiceType, GenreI, RawgServiceType, GenreModel } from '../types';
+import { DBServiceType, GenreI, RawgServiceType, GenreModel } from 'types';
 import { ModelStatic } from 'sequelize';
 
 //* Dependencies
-import { Genre } from '../db';
-import services from '../services';
-import utils from '../utils';
+import { Genre } from 'db';
+import services from 'services';
+import utils from 'utils';
 
 export default function GenresController() {}
 

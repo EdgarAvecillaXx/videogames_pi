@@ -1,7 +1,7 @@
-import { CreationOptional, InferAttributes, InferCreationAttributes, Model, ModelStatic } from 'sequelize';
-import GenreService from '../services/genres.service';
-import RawgService from '../services/rawg.service';
-import VideogameService from '../services/videogame.service';
+import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import GenreService from 'services/genres.service';
+import RawgService from 'services/rawg.service';
+import VideogameService from 'services/videogame.service';
 
 //? Error types
 export interface Error {

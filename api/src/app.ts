@@ -3,8 +3,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-import routes from './routes';
-import middleware from './middleware';
+import routes from 'routes';
+import middleware from 'middlewares';
 
 export const server = express();
 

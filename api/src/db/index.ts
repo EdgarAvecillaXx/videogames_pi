@@ -1,4 +1,4 @@
-import '../config';
+import 'config';
 import { Sequelize, ModelStatic, Model } from 'sequelize';
 import fs from 'fs';
 import path from 'path';
