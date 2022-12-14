@@ -1,5 +1,9 @@
-import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { CreationOptional, InferAttributes, InferCreationAttributes, Model, ModelStatic } from 'sequelize';
+import GenreService from '../services/genres.service';
+import RawgService from '../services/rawg.service';
+import VideogameService from '../services/videogame.service';
 
+//? Error types
 export interface Error {
   error: unknown;
   status: number;
@@ -8,7 +12,7 @@ export interface Error {
   type: string;
 }
 
-//? Models Types
+//? Models types
 export interface VideogameModel
   extends Model<InferAttributes<VideogameModel>, InferCreationAttributes<VideogameModel>> {
   id: string;
@@ -19,7 +23,7 @@ export interface VideogameModel
   platforms: Array<string>;
 }
 
-export interface GenreModel extends Model<InferAttributes<GenreModel>, InferCreationAttributes<GenreModel>> {
+export class GenreModel extends Model<InferAttributes<GenreModel>, InferCreationAttributes<GenreModel>> {
   id: number;
   name: CreationOptional<string>;
   slug: CreationOptional<string>;
@@ -27,22 +31,54 @@ export interface GenreModel extends Model<InferAttributes<GenreModel>, InferCrea
 }
 
 //? Rawg Types
-export interface RawgGenre {
-  id: number;
-  name: string;
-  slug: string;
-  image_background: string;
+export interface RawgServiceType extends RawgService {}
+
+export interface RawgGenre extends GenreI {
   games: {}[];
   games_count: number;
 }
-export interface GetRwagGenresResponse {
+
+export interface RawgVideogame extends VideogameI {
+  released: Date;
+  background_image: string;
+  genres: Array<string>;
+}
+
+export interface RawgGenreResponse {
+  count: number;
+  next: string;
+  previous: string;
   results: RawgGenre[];
 }
 
-//?Types
+export interface RawgVideogameResponse {
+  count: number;
+  next: string;
+  previous: string;
+  results: RawgVideogame[];
+}
+
+//? DB types
+export interface DBServiceType extends GenreService {}
+
+export interface videogameServiceType extends VideogameService {}
 export interface GenreI {
   id: number;
   name: string;
   slug: string;
   image_background: string;
+}
+
+export interface VideogameI {
+  id: string;
+  name: string;
+  image_background?: string;
+  genres: Array<string>;
+}
+
+export interface VideogameDetailI extends VideogameI {
+  description: string;
+  platforms: Array<String>;
+  rating: number;
+  release_date: Date;
 }
