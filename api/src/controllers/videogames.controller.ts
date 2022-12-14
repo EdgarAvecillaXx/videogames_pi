@@ -1,14 +1,14 @@
 //* Types
 import { NextFunction, Request, Response } from 'express';
 import { ModelStatic } from 'sequelize';
-import { VideogameModel, RawgServiceType, videogameServiceType, VideogameDetailI } from '../types';
+import { VideogameModel, RawgServiceType, videogameServiceType, VideogameDetailI } from 'types';
 //* Dependencies
-import { Videogame } from '../db';
-import services from '../services';
-import utils from '../utils';
-
+import { Videogame } from 'db';
+import services from 'services';
+import utils from 'utils';
 export default function VideogamesController() {}
 
+//$ GET/ videogames
 VideogamesController.getVideogames = async (
   req: Request,
   res: Response,
@@ -33,6 +33,7 @@ VideogamesController.getVideogames = async (
   }
 };
 
+//$ GET/ videogames/idVideogame
 VideogamesController.getVideogameById = async (
   req: Request,
   res: Response,
@@ -62,13 +63,23 @@ VideogamesController.getVideogameById = async (
   }
 };
 
+//$ POST/ videogames
 VideogamesController.addVideogame = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { name, description, release_date, rating, genres, platforms } = req.body;
-
+  //TODO: validar parametros
   try {
-  } catch (e: any) {}
+    //$DB Instance
+    const videogameService: videogameServiceType = new services.VideogameService(
+      Videogame as ModelStatic<VideogameModel>
+    );
+    const addVideogame: { msg: string } = await videogameService.addVideogame(req.body);
+
+    res.status(200).json(addVideogame);
+  } catch (e: any) {
+    if (!e.status) e = utils.ErrorHandler(e, 502, 'POST /videogames', 'controller');
+    next(e);
+  }
 };
