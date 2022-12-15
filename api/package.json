@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": " SET \"NODE_ENV=development\" && nodemon -L",
+    "dev": "npm-run-all -p watch:src watch:dist",
+    "clean": "rimraf dist",
+    "watch:src": "cross-env NODE_ENV=development webpack --env env=dev",
+    "watch:dist": "nodemon",
+    "build": "cross-env NODE_ENV=production webpack --mode production --env env=prod",
     "test": "mocha -w ./tests/**/*.spec.js"
   },
   "author": "Henry",
@@ -26,6 +30,9 @@
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
     "@types/body-parser": "^1.19.2",
     "@types/chai": "^4.3.4",
     "@types/cookie-parser": "^1.4.3",
@@ -36,12 +43,23 @@
     "@types/node": "^18.11.10",
     "@types/sequelize": "^4.28.14",
     "@types/supertest": "^2.0.12",
+    "babel-loader": "^9.1.0",
     "chai": "^4.2.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "cross-env": "^7.0.3",
+    "fork-ts-checker-webpack-plugin": "^7.2.13",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.6",
+    "npm-run-all": "^4.1.5",
     "supertest": "^6.0.1",
     "supertest-session": "^4.1.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.3"
+    "tsconfig-paths": "^4.1.1",
+    "tsconfig-paths-webpack-plugin": "^4.0.0",
+    "typescript": "^4.9.3",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0"
   }
 }

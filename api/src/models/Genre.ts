@@ -5,7 +5,7 @@ import { GenreModel } from 'types';
 export default (sequelize: Sequelize): void => {
   // defino el modelo
   sequelize.define<GenreModel>(
-    'genre',
+    'Genre',
     {
       id: {
         type: DataTypes.INTEGER,

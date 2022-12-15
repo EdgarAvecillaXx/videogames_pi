@@ -5,7 +5,7 @@ import { VideogameModel } from 'types';
 export default (sequelize: Sequelize): void => {
   // defino el modelo
   sequelize.define<VideogameModel>(
-    'videogame',
+    'Videogame',
     {
       id: {
         type: DataTypes.STRING,

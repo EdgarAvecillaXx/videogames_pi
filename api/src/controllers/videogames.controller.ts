@@ -14,16 +14,17 @@ VideogamesController.getVideogames = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  const { name } = req.query;
   try {
     //$ RAWG instance
     const rawgService: RawgServiceType = new services.RawgService();
-    const data = await rawgService.getRawgVideogames();
+    const data = await rawgService.getRawgVideogames(name);
 
     //$ BD instance
     const videogameService: videogameServiceType = new services.VideogameService(
       Videogame as ModelStatic<VideogameModel>
     );
-    const data2 = await videogameService.getVideogames();
+    const data2 = await videogameService.getVideogames(name);
     data.push(...data2);
 
     res.status(200).send(data);
@@ -41,7 +42,7 @@ VideogamesController.getVideogameById = async (
 ): Promise<void> => {
   const { idVideogame } = req.params;
   try {
-    let videogame: VideogameDetailI;
+    let videogame: unknown;
 
     //$ DB Instance
     if (idVideogame.startsWith('EA')) {
@@ -53,7 +54,6 @@ VideogamesController.getVideogameById = async (
       //$ RAWG instance
     } else {
       const rawgService: RawgServiceType = new services.RawgService();
-      console.log(idVideogame);
       videogame = await rawgService.getRawgVideogameById(idVideogame);
     }
     res.status(200).send(videogame);
@@ -69,13 +69,24 @@ VideogamesController.addVideogame = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
+  const { id, name, description, release_date, rating, genres, platforms } = req.body;
   //TODO: validar parametros
   try {
     //$DB Instance
     const videogameService: videogameServiceType = new services.VideogameService(
       Videogame as ModelStatic<VideogameModel>
     );
-    const addVideogame: { msg: string } = await videogameService.addVideogame(req.body);
+    const addVideogame: { msg: string } = await videogameService.addVideogame(
+      {
+        id,
+        name,
+        description,
+        release_date,
+        rating,
+        platforms,
+      },
+      genres
+    );
 
     res.status(200).json(addVideogame);
   } catch (e: any) {

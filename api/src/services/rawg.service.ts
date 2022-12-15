@@ -33,27 +33,34 @@ export default class RawgService {
     }
   }
 
-  async getRawgVideogames(): Promise<VideogameI[]> {
+  async getRawgVideogames(name?: unknown): Promise<VideogameI[]> {
     try {
       const res = [];
-      //$ Here it is used for loop to iterate to obtain 100 records from Rawg
-      for (let i = 1; i < 6; i++) {
+      if (name) {
         const {
           data: { results },
-        } = await rawgClient.get<RawgVideogameResponse>(`/games?key=${RAWG_API_KEY}&page=${i}`);
-        console.log(results.length);
-        //$ transform the videgame Repsonse to VideoGameI
-        const data = results.map<VideogameI>(({ id, name, image_background, genres }) => ({
-          id,
-          name,
-          image_background,
-          genres,
-        }));
-        res.push(...data);
+        } = await rawgClient.get<RawgVideogameResponse>(
+          `/games?name=${name}&key=${RAWG_API_KEY}&page_size=15`
+        );
+        res.push(...results);
+      } else {
+        //$ Here it is used for loop to iterate to obtain 100 records from Rawg
+        for (let i = 1; i < 6; i++) {
+          const {
+            data: { results },
+          } = await rawgClient.get<RawgVideogameResponse>(`/games?key=${RAWG_API_KEY}&page=${i}`);
+          //$ transform the videgame Repsonse to VideoGameI
+          const data = results.map<VideogameI>(({ id, name, image_background, genres }) => ({
+            id,
+            name,
+            image_background,
+            genres,
+          }));
+          res.push(...data);
+        }
       }
       return res;
     } catch (e: any) {
-      console.log(e);
       throw utils.ErrorHandler(e, 503, 'RAWG', 'GET /videogames', e?.response?.data?.error);
     }
   }

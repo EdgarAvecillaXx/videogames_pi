@@ -1,3 +1,4 @@
+import { BelongsToManySetAssociationsMixin } from 'sequelize';
 import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import GenreService from 'services/genres.service';
 import RawgService from 'services/rawg.service';
@@ -21,6 +22,7 @@ export interface VideogameModel
   release_date: CreationOptional<Date>;
   rating: CreationOptional<number>;
   platforms: Array<string>;
+  setGenres: BelongsToManySetAssociationsMixin<GenreModel, number>;
 }
 
 export class GenreModel extends Model<InferAttributes<GenreModel>, InferCreationAttributes<GenreModel>> {

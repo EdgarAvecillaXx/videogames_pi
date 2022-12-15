@@ -16,7 +16,6 @@ GenresController.getGenres = async (req: Request, res: Response, next: NextFunct
     //$ BD Genre service
     const genreService: DBServiceType = new services.GenreService(Genre as ModelStatic<GenreModel>);
     let genres: GenreI[] = await genreService.getGenres();
-
     console.log(genres.length ? 'Serving from DB' : 'Serving from RAWG');
     if (!genres.length) {
       //$ RAWG Genre Service

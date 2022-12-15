@@ -7,7 +7,6 @@ import routes from 'routes';
 import middleware from 'middlewares';
 
 export const server = express();
-
 //(server.name as String) = 'API';
 Object.defineProperty(server, 'name', { value: 'API' });
 
