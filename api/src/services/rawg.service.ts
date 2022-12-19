@@ -40,7 +40,7 @@ export default class RawgService {
         const {
           data: { results },
         } = await rawgClient.get<RawgVideogameResponse>(
-          `/games?name=${name}&key=${RAWG_API_KEY}&page_size=15`
+          `/games?search=${name}&key=${RAWG_API_KEY}&page_size=15`
         );
         res.push(...results);
       } else {
