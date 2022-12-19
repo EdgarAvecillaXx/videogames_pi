@@ -1,9 +1,7 @@
 import { Router } from 'express';
-import { genresController } from '../controllers';
-import { Genre } from '../db';
+import { genresController } from 'controllers';
 
 const router = Router();
-const controller = new genresController(Genre);
-router.get('/', controller.getGenres);
+router.get('/', genresController.getGenres);
 
 export default router;

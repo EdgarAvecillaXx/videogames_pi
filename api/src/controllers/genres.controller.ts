@@ -1,24 +1,35 @@
-import { Request, Response } from 'express';
-import { ModelStatic, Model } from 'sequelize';
-import services from '../services';
+//* Types
+import { NextFunction, Request, Response } from 'express';
+import { DBServiceType, GenreI, RawgServiceType, GenreModel } from 'types';
+import { ModelStatic } from 'sequelize';
 
-export default class GenresController {
-  constructor(private readonly Genre: ModelStatic<Model>) {
-    this.Genre = Genre;
-  }
-  async getGenres(req: Request, res: Response) {
+//* Dependencies
+import { Genre } from 'db';
+import services from 'services';
+import utils from 'utils';
+
+export default function GenresController() {}
+
+//? Obtain genres elemnts, from DB or RAWG
+GenresController.getGenres = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
     //$ BD Genre service
-    const genreService = new services.GenreService(this.Genre);
-    let genres = await genreService.getRecords();
+    const genreService: DBServiceType = new services.GenreService(Genre as ModelStatic<GenreModel>);
+    let genres: GenreI[] = await genreService.getGenres();
+    console.log(genres.length ? 'Serving from DB' : 'Serving from RAWG');
     if (!genres.length) {
       //$ RAWG Genre Service
-      const rawgGenreService = new services.RawgService();
+      const rawgGenreService: RawgServiceType = new services.RawgService();
       genres = await rawgGenreService.getRawgGenres();
-      await genreService.addBulk(genres);
+      await genreService.addGenres(genres);
     }
+
     res.status(200).send(genres);
+  } catch (e: any) {
+    if (!e.status) e = utils.ErrorHandler(e, 502, 'GET /genres', 'controller');
+    next(e);
   }
-}
+};
 
 /*
   + Obtiene todos los tipos de generos 

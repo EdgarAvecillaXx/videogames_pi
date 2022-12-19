@@ -1,12 +1,12 @@
+//* Dependencies
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-import routes from './routes';
-import middleware from './middleware';
+import routes from 'routes';
+import middleware from 'middlewares';
 
 export const server = express();
-
 //(server.name as String) = 'API';
 Object.defineProperty(server, 'name', { value: 'API' });
 
@@ -20,5 +20,5 @@ server.use(middleware.headersConfig);
 //$routes
 server.use('/', routes);
 
-// Error catching endware.
+//? Error catching endware.
 server.use(middleware.ErrorHandling);
